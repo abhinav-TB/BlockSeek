@@ -82,9 +82,9 @@ class App extends Component {
       })
   }
 
-  sendReward(ansId) {
+  sendReward(ansId , reward) {
     this.setState({ loading: true })
-    this.state.blockseek.methods.postAnswer(ansId).send({ from: this.state.account })
+    this.state.blockseek.methods.sendReward(ansId).send({ from: this.state.account , value: window.web3.utils.toWei(reward.toString(), 'ether') })
       .once('confirmation', (n, receipt) => {
         this.setState({ loading: false })
         window.location.reload()
@@ -100,6 +100,9 @@ class App extends Component {
       myanswers: [],
       loading: true
     }
+    this.postQuestion = this.postQuestion.bind(this)
+    this.postAnswer = this.postAnswer.bind(this)
+    this.sendReward = this.sendReward.bind(this)
   }
 
   render() {

@@ -27,7 +27,7 @@ class Answers extends Component {
                                             variant="primary"
                                             name={answer.id}
                                             onClick={(event) => {
-                                                this.props.sendReward(event.target.name)
+                                                this.props.sendReward(event.target.name , window.web3.utils.fromWei(answer.reward.toString(), 'Ether'))
                                             }}
                                         >
                                             Send Reward
