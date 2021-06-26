@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Navbar from 'react-bootstrap/Navbar';
+import { Nav } from 'react-bootstrap';
 import './App.css';
 import Web3 from 'web3';
 import Blockseek from '../abis/Blockseek.json';
-import './App.css';
+import pic from '../logo.png';
 
 class App extends Component {
   async componentWillMount() {
@@ -59,7 +61,34 @@ class App extends Component {
     }
   }
 
-constructor(props) {
+  postQuestion(reward, qn) {
+    this.setState({ loading: true })
+    this.state.blockseek.methods.postQuestion(window.web3.utils.toWei(reward.toString(), 'ether'), qn).send({ from: this.state.account })
+      .once('confirmation', (n, receipt) => {
+        this.setState({ loading: false })
+        window.location.reload()
+      })
+  }
+
+  postAnswer(qnId, ans) {
+    this.setState({ loading: true })
+    this.state.blockseek.methods.postAnswer(qnId, ans).send({ from: this.state.account })
+      .once('confirmation', (n, receipt) => {
+        this.setState({ loading: false })
+        window.location.reload()
+      })
+  }
+
+  sendReward(ansId) {
+    this.setState({ loading: true })
+    this.state.blockseek.methods.postAnswer(ansId).send({ from: this.state.account })
+      .once('confirmation', (n, receipt) => {
+        this.setState({ loading: false })
+        window.location.reload()
+      })
+  }
+
+  constructor(props) {
     super(props)
     this.state = {
       account: '',
@@ -72,11 +101,40 @@ constructor(props) {
 
   render() {
     return (
-      <div>
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <h1>Blockseek</h1>
-        </nav>
-      </div>
+      <div style={{ height: 800 }}>
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+        <Navbar.Brand href="/">
+          <img
+            src={pic}
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+            alt="React Bootstrap logo"
+          />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/post">Post Question</Nav.Link>
+            <Nav.Link href="/answers">My Answers</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      <Router>
+        <Switch>
+          <Route exact path="/" render={props => (
+            <React.Fragment>
+              {
+                this.state.loading
+                  ? <center><br/><br/><br/><br/><br/><br/><div class="loader"></div></center>
+                  : <Main account={this.state.account} questions={this.state.questions} postAnswer={this.postAnswer}/>
+              }
+            </React.Fragment>
+          )} />
+        </Switch>
+      </Router>
+    </div>
     );
   }
 }
