@@ -6,6 +6,9 @@ import './App.css';
 import Web3 from 'web3';
 import Blockseek from '../abis/Blockseek.json';
 import pic from '../logo.png';
+import Main from './Main';
+import Post from './Post';
+import Answers from './Answers';
 
 class App extends Component {
   async componentWillMount() {
@@ -129,6 +132,24 @@ class App extends Component {
                 this.state.loading
                   ? <center><br/><br/><br/><br/><br/><br/><div class="loader"></div></center>
                   : <Main account={this.state.account} questions={this.state.questions} postAnswer={this.postAnswer}/>
+              }
+            </React.Fragment>
+          )} />
+          <Route exact path="/post" render={props => (
+            <React.Fragment>
+              {
+                this.state.loading
+                  ? <center><br/><br/><br/><br/><br/><br/><div class="loader"></div></center>
+                  : <Post postQuestion={this.postQuestion}/>
+              }
+            </React.Fragment>
+          )} />
+          <Route exact path="/answers" render={props => (
+            <React.Fragment>
+              {
+                this.state.loading
+                  ? <center><br/><br/><br/><br/><br/><br/><div class="loader"></div></center>
+                  : <Answers myanswers={this.state.myanswers} sendReward={this.sendReward}/>
               }
             </React.Fragment>
           )} />
