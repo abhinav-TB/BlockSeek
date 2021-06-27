@@ -1,5 +1,5 @@
 # BlockSeek
-BlockSeek is a decentralized alternative for such platforms. It provides a blockchain-based forum where any users can seek answers to questions of any kind. They can post the question on this forum and also offer a small reward in crypto to the most satisfactory answer obtained for that question.
+BlockSeek provides a blockchain-based forum where any users can seek answers to questions of any kind. They can post the question on this forum and also offer a small reward in crypto to the most satisfactory answer obtained for that question.
 
 ## Steps to run
 
